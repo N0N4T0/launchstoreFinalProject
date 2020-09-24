@@ -7,7 +7,6 @@ const Base = require("./Base")
 
 Base.init({ table: 'users' })
 
-// module.exports = {
 const User = {
     ...Base,
 
