@@ -1,10 +1,23 @@
-const { create } = require("browser-sync")
 //MÉTODOS PADRÕES FICARÃO NA BASE
 //MÉTODOS ESPECÍFICOS FICARÃO NOS OUTRO ARQUIVOS
 //Product.js, User.js, File.js, Category.js herdará do Base.js
 
 const db = require("../../config/db")
-const { delete } = require("./File")
+
+function find(filters, table){
+    let query = `SELECT * FROM ${table}`
+
+    Object.keys(filters).map(key => {
+        //where | OR | and 
+        query += ` ${key}`
+
+        Object.keys(filters[key]).map(field => {
+            query += ` ${field} = '${filters[key][field]}'`
+        })
+    })
+
+    return db.query(query)
+}
 
 const Base = {
     init({ table }) {
@@ -16,24 +29,22 @@ const Base = {
         return this
     },
 
-    async findOne(filters){
-        let query = `SELECT * FROM ${this.table}`
-
-        Object.keys(filters).map(key => {
-            //where | OR | and 
-            query = `${query}
-            ${key}
-            `
-
-            Object.keys(filters[key]).map(field => {
-                //cpf = cpf
-                query = `${query} ${field} = '${filters[key][field]}'`
-            })
-        })
-
-        const results = await db.query(query)
-
+    async find(id){
+        const results = await find({ where: { id } }, this.table)
+        
         return results.rows[0]
+    },
+
+    async findOne(filters){
+        const results = await find(filters, this.table)
+        
+        return results.rows[0]
+    },
+
+    async findAll(filters){
+        const results = await find(filters, this.table)
+        
+        return results.rows
     },
 
     async create(fields){
@@ -94,10 +105,8 @@ const Base = {
     },
 
     delete(id) {
-        return db.query('DELETE FROM products WHERE id = $1', [id])
-    }
-    
-     
+        return db.query(`DELETE FROM ${this.table} WHERE id = $1`, [id])
+    }     
 }
 
 module.exports = Base
