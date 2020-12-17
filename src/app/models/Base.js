@@ -94,10 +94,8 @@ const Base = {
                 ${update.join(',')} WHERE id = ${id}
             `
         
-            db.query(query)
+            return db.query(query)
         
-            return
-
         } catch (err) {
             console.error(err)
         }
