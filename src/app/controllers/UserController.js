@@ -1,4 +1,9 @@
+const  {unlinkSync } = require('fs') 
+const { hash } = require('bcryptjs')
+
 const User = require("../models/User")
+const Product = require('../models/Product')
+
 const { formatCpfCnpj, formatCep } = require("../../lib/utils")
 
 module.exports = {
@@ -8,27 +13,66 @@ module.exports = {
     },
 
     async show(req, res) {
-        const { userId: id } = req.session
+        try {
+            const {user} = req
 
-        const user = await User.findOne({where: {id} })
+            user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
+            user.cep = formatCep(user.cep)
 
-        if(!user) return res.render("user/index", {
-            error: "Usuário não encontrado"
-        })
+            return res.render('user/index', { user })
 
-        user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
-        user.cep = formatCep(user.cep)
+            // const { userId: id } = req.session
 
-        return res.render('user/index', { user })
+            // const user = await User.findOne({where: {id} })
+
+            // if(!user) return res.render("user/index", {
+            //     error: "Usuário não encontrado"
+            // })
+
+            // user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
+            // user.cep = formatCep(user.cep)
+
+            // return res.render('user/index', { user })
+
+        } catch (error) {
+            console.error(error)
+        }
     },
 
-    async post(req, res) {  
+    async post(req, res) { 
+        try {
+            let { 
+                name,
+                email,
+                password,
+                cpf_cnpj,
+                cep,
+                address
+            } = req.body
 
-        const userId = await User.create(req.body)
+            
+            //hash of password
+            password = await hash(password, 8)
 
-        req.session.userId = userId
+            cpf_cnpj = cpf_cnpj.replace(/\D/g, "")
+            cep = cep.replace(/\D/g, "")
 
-        return res.redirect('/users')
+            const userId = await User.create({
+                name,
+                email,
+                password,
+                cpf_cnpj,
+                cep,
+                address
+            })
+
+            req.session.userId = userId
+
+            return res.redirect('/users')
+        
+        } catch (error) {
+            console.error(error)
+        }
     },
 
     async update (req, res) {
@@ -62,9 +106,29 @@ module.exports = {
 
     async delete(req, res){
         try {
-            await User.delete(req.body.id)
+            const products = await Product.findAll({where: {user_id: req.body.id}})
 
+            //dos produtos, pegar todas as imagens
+            const allFilesPromise = products.map(product =>
+                Product.files(product.id))
+
+            let promiseResults = await Promise.all(allFilesPromise)
+            
+            //rodar a remoção do usuário
+            await User.delete(req.body.id)
             req.session.destroy()
+
+            //remover imagens da pasta public
+            promiseResults.map(results => {
+                results.rows.map(file => {
+                    try {
+                        unlinkSync(file.path)
+                        
+                    } catch (err) {
+                        console.error(err)
+                    }
+                })
+            })
 
             return res.render("session/login", {
                 success: "Conta deletada com sucesso!"
