@@ -119,8 +119,8 @@ module.exports = {
             req.session.destroy()
 
             //remover imagens da pasta public
-            promiseResults.map(results => {
-                results.rows.map(file => {
+            promiseResults.map(files => {
+                files.map(file => {
                     try {
                         unlinkSync(file.path)
                         
