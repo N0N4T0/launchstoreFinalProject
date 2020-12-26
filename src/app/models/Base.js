@@ -62,7 +62,7 @@ const Base = {
                 //name, age, address
                 
                 keys.push(key)
-                values.push(fields[key])
+                values.push(`'${fields[key]}'`)
 
                 //values
                 //'Valeska', '30', 'Rua algumas coisa'
