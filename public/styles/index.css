@@ -595,10 +595,6 @@ form .item #photos-preview img {
 }
 
 
-/* user register */
-.user-register.container.form {
-    max-width: 500px;
-}
 
 /* .form input[name="email"],
 .form input[name="password"],
