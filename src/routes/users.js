@@ -37,6 +37,9 @@ routes.get('/ads', UserController.ads)
 //Pedidos
 routes.post('/orders', onlyUsers, OrderController.post)
 
+//Nível de teste do lottie
+// routes.get('/orders', (req, res) => res.render('orders/success'))
+// routes.get('/orders', (req, res) => res.render('orders/error'))
 
 
 module.exports = routes
