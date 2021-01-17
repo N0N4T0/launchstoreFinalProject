@@ -125,13 +125,13 @@ const product2 = {
 // console.log(oldCart)
 
 
-console.log('remove one item')
-oldCart = Cart.init(oldCart).removeOne(product.id)
-console.log(oldCart)
+// console.log('remove one item')
+// oldCart = Cart.init(oldCart).removeOne(product.id)
+// console.log(oldCart)
 
-console.log('remove one item')
-oldCart = Cart.init(oldCart).removeOne(product.id)
-console.log(oldCart)
+// console.log('remove one item')
+// oldCart = Cart.init(oldCart).removeOne(product.id)
+// console.log(oldCart)
 
 
 module.exports = Cart
