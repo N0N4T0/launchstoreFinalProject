@@ -42,7 +42,7 @@ const Cart = {
         //max quantity exceded
         if(inCart.quantity >= product.quantity) return this
 
-        //ipdate item
+        //update item
         inCart.quantity++
         inCart.price = inCart.product.price * inCart.quantity
         inCart.formattedPrice = formatPrice(inCart.price)
@@ -56,9 +56,36 @@ const Cart = {
         return this
     },
 
-
     //remover 1 item do carrinho
-    removeOne(productId){},
+    removeOne(productId){
+        //pegar o item do carrinho
+        const inCart = this.items.find(item => item.product.id == productId)
+
+        if(!inCart) return this
+
+        // atualizar o item
+        inCart.quantity--
+        inCart.price = inCart.product.price * inCart.quantity
+        inCart.formattedPrice = formatPrice(inCart.price)
+
+
+        //atualizar o carrinho
+        this.total.quantity--
+        this.total.price -= inCart.product.price
+        this.total.formattedPrice = formatPrice(this.total.price)
+
+        if(inCart.quantity < 1){
+            // Primeira opção de remoção
+            // const itemIndex = this.items.indexOf(inCart)
+            // this.items.splice(itemIndex, 1)
+
+            this.items.filter(item => item.product.id != inCart.product.id)            
+
+            return this
+        }
+
+        return this
+    },
 
 
     //deletar todo o item
@@ -96,6 +123,15 @@ const product2 = {
 // console.log('add last cart item')
 // oldCart = Cart.init(oldCart).addOne(product)
 // console.log(oldCart)
+
+
+console.log('remove one item')
+oldCart = Cart.init(oldCart).removeOne(product.id)
+console.log(oldCart)
+
+console.log('remove one item')
+oldCart = Cart.init(oldCart).removeOne(product.id)
+console.log(oldCart)
 
 
 module.exports = Cart
