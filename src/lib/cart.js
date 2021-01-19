@@ -79,7 +79,8 @@ const Cart = {
             // const itemIndex = this.items.indexOf(inCart)
             // this.items.splice(itemIndex, 1)
 
-            this.items.filter(item => item.product.id != inCart.product.id)            
+            this.items = this.items.filter(item =>
+                item.product.id != inCart.product.id)            
 
             return this
         }
