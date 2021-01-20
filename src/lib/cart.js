@@ -110,17 +110,19 @@ const Cart = {
     }
 }
 
-const product = {
-    id: 1,
-    price: 199,
-    quantity: 2
-}
 
-const product2 = {
-    id: 2,
-    price: 229,
-    quantity: 1
-}
+// Teste
+// const product = {
+//     id: 1,
+//     price: 199,
+//     quantity: 2
+// }
+
+// const product2 = {
+//     id: 2,
+//     price: 229,
+//     quantity: 1
+// }
 
 //Estrutura
 // console.log(Cart.init().total)
