@@ -309,7 +309,7 @@ const Validate = {
 
     },
     allFields(e){
-        const items = document.querySelectorAll(' .item inout, .item select, .item textarea')
+        const items = document.querySelectorAll(' .item input, .item select, .item textarea')
 
         for(item of items){
             if(item.value == ""){

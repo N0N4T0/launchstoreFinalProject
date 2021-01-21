@@ -3,7 +3,6 @@ const routes = express.Router()
 
 const SessionController = require("../app/controllers/SessionController")
 const UserController = require("../app/controllers/UserController")
-const OrderController = require("../app/controllers/OrderController")
 
 const UserValidator = require("../app/validators/users")
 const SessionValidator = require("../app/validators/session")
@@ -34,8 +33,7 @@ routes.delete('/', UserController.delete)
 
 routes.get('/ads', UserController.ads)
 
-//Pedidos
-routes.post('/orders', onlyUsers, OrderController.post)
+
 
 //Nível de teste do lottie
 // routes.get('/orders', (req, res) => res.render('orders/success'))
