@@ -37,11 +37,19 @@ module.exports = {
 
     async sales(req, res) {
         //pegar os pedidos do usuário
-        const sales = await LoadOrderService.load('sales', {
+        const sales = await LoadOrderService.load('orders', {
             where: { seller_id: req.session.userId }
         })
 
         return res.render("orders/sales", { sales })
+    },
+
+    async show(req, res) {
+        const order = await LoadOrderService.load('order', {
+            where: {id: req.params.id}
+        })
+
+        return res.render("orders/details", { order })
     },
 
 
@@ -110,6 +118,8 @@ module.exports = {
         }
         
     },
+
+
 
     
 }
