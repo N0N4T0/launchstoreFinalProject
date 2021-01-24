@@ -45,16 +45,16 @@
                                 <li><a href="/products/{{sale.product.id}}/edit">Editar Produto</a></li>
                                 
                                 {% if sale.status == 'open'%}
-                                    <li>
-                                        <form action="/orders/{{sale.id}}/close" method="POST">
-                                            <button>Marcar Vendido</button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form action="/orders/{{sale.id}}/cancel" method="POST">
-                                            <button>Marcar Cancelado</button>
-                                        </form>
-                                    </li>
+                                <li>
+                                    <form action="/orders/{{sale.id}}/close" method="POST">
+                                        <button>Marcar Vendido</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form action="/orders/{{sale.id}}/cancel" method="POST">
+                                        <button>Marcar Cancelado</button>
+                                    </form>
+                                </li>
                                 {% endif %}
                             </ul>
                         </div>

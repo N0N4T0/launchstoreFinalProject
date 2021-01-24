@@ -21,7 +21,7 @@ ul.dropdown {
 
     display: flex;
     flex-direction: column;
-    background-color: white;
+    /* background-color: white; */
 
     border-radius: 4px;
     box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, .6);
@@ -31,6 +31,8 @@ ul.dropdown {
     visibility: hidden;
 
     transition: all 200ms;
+
+    z-index: 1;
 }
 
 ul.dropdown li a,
@@ -47,6 +49,9 @@ ul.dropdown li button {
 
     padding: 0 16px;
     border-radius: 4px;
+    
+/* bug de css */
+    background-color: white;
 }
 
 ul.dropdown li:hover,
@@ -62,6 +67,8 @@ ul.dropdown li:hover button {
     height: 48px;
     cursor: pointer;
     padding: 0 16px;
+
+    background-color: white;
 }
 
 .actions.dropdown-container:hover {
